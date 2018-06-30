@@ -173,11 +173,21 @@ footer {
     height: 24vh;
     color: #fff;
     background: rgba(255, 255, 255, 0.2);
+}
 
+footer>.layout {
+    position: relative;
 }
 
 footer .box {
     position: relative;
+    overflow: hidden;
+    height: 24vh;
+}
+
+footer ul {
+    position: absolute;
+    left: 0;
 }
 
 footer .ul::after {
@@ -189,7 +199,7 @@ footer .ul::after {
 footer li {
     float: left;
     margin-top: 1vh;
-    margin: 2vh 4vh 0 12vh;
+    margin: 2vh 4vh 0 3vh;
     width: 20vh;
     height: 20vh;
     text-align: center;

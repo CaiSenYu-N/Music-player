@@ -23,14 +23,22 @@ var EventCenter = {
 var Footer = {
     init: function(){
         this.$footer = $('footer')
+        this.$ul = this.$footer.find('ul')
+        this.$box = this.$footer.find('.box')
+        this.$leftBtn = this.$footer.find('.icon-left')
+        this.$rightBtn = this.$footer.find('.icon-right')
         this.bind()
         this.render()
     },
 
     bind: function(){
         var _this = this
-        $(window).resize(function(){
-            _this.setStyle()
+        this.$rightBtn.on('click', function(){
+            var itemWidth = _this.$box.find('li').outerWidth(true)
+            var rowCount = Math.floor(_this.$box.width()/itemWidth)
+            _this.$ul.animate({
+                left: '-='+rowCount*itemWidth
+            }, 400)
         })
     },
 
@@ -54,11 +62,15 @@ var Footer = {
                     + '  <h3>'+channel.name+'</h3>'
                     +'</li>'
         })
-        this.$footer.find('ul').html(html)
+        this.$ul.html(html)
         this.setStyle()
     },
     setStyle: function(){
-
+        var count = this.$footer.find('li').length
+        var width = this.$footer.find('li').outerWidth(true)
+        this.$ul.css({
+            width: count * width + 'px'
+        })
     }
 }
 
