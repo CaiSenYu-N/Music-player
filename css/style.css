@@ -45,7 +45,7 @@ html, body, section {
     right: -10px;
     background: url(http://pic1.win4000.com/wallpaper/3/56f508af0c640.jpg);
     background-size: cover;
-    filter: blur(4px);
+    filter: blur(6px);
 }
 .bg::before {
     content: '';
@@ -153,9 +153,10 @@ main .area-bar .current-time {
 main .area-bar .bar-progress {
     position: absolute;
     height: .8vh;
-    width: 10%;
+    width: 0.1%;
     background-color: #aaa;
     border-radius: .2vh;
+    transition: width .8s;
 }
 
 main .author {
@@ -207,7 +208,7 @@ footer li {
 }
 
 footer li:hover {
-    box-shadow: 0 0 .5vh .5vh rgba(255, 255, 255, .4)
+    box-shadow: 0 0 .5vh .5vh rgba(255, 255, 255, .4);
 }
 
 footer li .cover {
@@ -220,6 +221,10 @@ footer h3 {
     font-size: 2vh;
     color: rgba(255, 255, 255, 0.6);
     margin-top: 1vh;
+}
+
+footer li.active {
+    box-shadow: 0 0 .5vh .5vh rgba(255, 255, 255, .4)
 }
 
 footer .iconfont {
