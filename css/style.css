@@ -165,9 +165,9 @@ main .author {
 }
 
 main .lyric {
-    font-size: 2vh;
+    font-size: 3vh;
     margin-top: 2vh;
-    color: rgba(50, 68, 80, 0.4);
+    color: #eee;
 }
 
 footer {
@@ -252,3 +252,4 @@ footer .icon-left {
 footer .icon-right {
     right: -8vh;
 }
+

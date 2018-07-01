@@ -84,7 +84,6 @@ var Footer = {
         var _this = this
         $.getJSON('https://jirenguapi.applinzi.com/fm/getChannels.php')
             .done(function (ret) {
-                console.log(ret)
                 _this.renderFooter(ret.channels)
             }).fail(function () {
                 console.log('error')
@@ -92,7 +91,6 @@ var Footer = {
     },
 
     renderFooter: function (channels) {
-        console.log(channels)
         var html = ''
         channels.forEach(function (channel) {
             html += '<li data-channel-id=' + channel.channel_id + ' data-channel-name=' + channel.name + '>'
@@ -127,9 +125,7 @@ var Fm = {
         EventCenter.on('select-albumn', function(e, channelObj){
             _this.channelId = channelObj.channelId
             _this.channelName = channelObj.channelName
-            _this.loadMusic(function(){
-                _this.setMusic()
-            })
+            _this.loadMusic()
         })
 
         //点击播放/暂停
@@ -147,9 +143,7 @@ var Fm = {
         //下一首
         this.$container.find('.btn-next').on('click', function(){
             $('.btn-play').removeClass('icon-play').addClass('icon-pause')
-            _this.loadMusic(function(){
-                _this.setMusic()
-            })
+            _this.loadMusic()
         })
 
         this.audio.addEventListener('play', function(){
@@ -160,7 +154,6 @@ var Fm = {
         })
         this.audio.addEventListener('pause', function(){
             clearInterval(_this.statusClock)
-            console.log('pause')
         })
     },
     //获取数据
@@ -169,7 +162,27 @@ var Fm = {
         $.getJSON('//jirenguapi.applinzi.com/fm/getSong.php', {channel:this.channelId})
         .done(function(ret){
             _this.song = ret['song'][0]
-          callback()
+            _this.setMusic()
+            _this.loadLyric()
+        })
+    },
+    //歌词实现
+    loadLyric(){
+        var _this = this
+        $.getJSON('//jirenguapi.applinzi.com/fm/getLyric.php', {sid:this.song.sid})
+        .done(function(ret){
+           var lyric = ret.lyric
+           var lyricObj = {}
+           lyric.split('\n').forEach(function(line){
+             var times = line.match(/\d{2}:\d{2}/g)
+             var str = line.replace(/\[.+?]/g, '')
+             if(Array.isArray(times)){
+                times.forEach(function(time){
+                    lyricObj[time] = str
+                 })
+            }
+        })
+           _this.lyricObj = lyricObj
         })
     },
     //渲染页面
@@ -189,7 +202,10 @@ var Fm = {
         this.$container.find('.current-time').text(min+':'+second)
         this.$container.find('.bar-progress').css('width', 
     this.audio.currentTime/this.audio.duration*100+'%')
-        console.log('update...')
+        var line = this.lyricObj['0'+min+':'+second]
+        if(line){
+            this.$container.find('.lyric p').text(line)
+        }
     }
 }
 
